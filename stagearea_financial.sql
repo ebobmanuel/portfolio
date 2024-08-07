@@ -50,8 +50,8 @@ FROM PortfolioProject..StageArea_financial_complaints
 GROUP BY  Complaint_ID
 HAVING COUNT(*)>1;  
 
--- STANDARDIZE DATA
 
+-- STANDARDIZE DATA
 -- Data had 2 colums for 'Credit card' & 'Credit card or prepaid card'. combined all into 1 Column namely 'Credit card or prepaid card'
 
 SELECT *
@@ -72,8 +72,7 @@ FROM PortfolioProject..StageArea_financial_complaints
 WHERE Product LIKE 'Credit card or prepaid card'
 	
 
--- Viewing states-- 
-	
+-- Viewing states-- 	
 -- Data Shows 62 states listed. Updated data to only include 50 states plus DC
 	
 
