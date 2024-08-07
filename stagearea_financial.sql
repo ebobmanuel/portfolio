@@ -12,7 +12,10 @@ FROM finacial_complaints
 -- Address Null or Blank Values
 -- Remove unnecessary Columns
 
-CREATE TABLE StageArea_financial_complaints( --Create staging table to peform changes to file
+
+--Create staging table to peform changes to file
+	
+CREATE TABLE StageArea_financial_complaints( 
 	Complaint_ID float NULL,
 	DateSumbited datetime NULL,
 	Product nvarchar(255) NULL,
@@ -37,16 +40,19 @@ FROM finacial_complaints
 
 SELECT *
 FROM StageArea_financial_complaints
+	
 
 -- REMOVE DUPLACTES
+-- checking Complaint_ID results indicate no duplicates
 
-SELECT Complaint_ID, COUNT(*) -- checking Complaint_ID results indicate no duplicates
+SELECT Complaint_ID, COUNT(*) 
 FROM PortfolioProject..StageArea_financial_complaints
 GROUP BY  Complaint_ID
 HAVING COUNT(*)>1;  
 
 -- STANDARDIZE DATA
 
+-- Data had 2 colums for 'Credit card' & 'Credit card or prepaid card'. combined all into 1 Column namely 'Credit card or prepaid card'
 
 SELECT *
 FROM StageArea_financial_complaints
@@ -57,7 +63,7 @@ SELECT *
 FROM StageArea_financial_complaints
 WHERE Product LIKE 'Credit card or prepaid card'
 
-UPDATE StageArea_financial_complaints -- Data had 2 colums for 'Credit card' & 'Credit card or prepaid card'. combined all into 1 Column namely 'Credit card or prepaid card'
+UPDATE StageArea_financial_complaints 
 SET Product = 'Credit card or prepaid card'
 WHERE Product LIKE 'Credit card'
 
@@ -88,16 +94,17 @@ WHERE State IN ('AS', 'AP', 'FM', 'GU', 'VI', 'MP', 'PR', 'AE', 'PW')
 OR State IN ('UNITED STATES MINOR OUTLYING ISLANDS')
 OR State IS NULL;
 
-SELECT DISTINCT State -- Confirmed states were deleted. Data shows updated to only 50 states plus DC
+ -- Confirmed states were deleted. Data shows updated to only 50 states plus DC
+
+SELECT DISTINCT State
 FROM StageArea_financial_complaints
 GROUP BY State
 
 
 
--- Address Null or Blank Values
+-- ADDRESS NULL & BLANK VALUES
 
 	
-
 SELECT *
 FROM StageArea_financial_complaints
 WHERE Sub_product = '""'
@@ -115,10 +122,10 @@ DELETE
 FROM StageArea_financial_complaints
 WHERE Consumer_consent_provided IS NULL
 	
-
--- Remove unnecessary Columns
 	
 
+-- REMOVE UNNECESSARY COLUMNS
+	
 SELECT *
 FROM StageArea_financial_complaints
 
@@ -149,38 +156,43 @@ FROM PortfolioProject..StageArea_financial_complaints
 
 
 --checking the number of complaints per state to see which states have the highest Number of complaints	
-
 	
 SELECT State, COUNT(*)Complaint_ID 
-
 FROM PortfolioProject..StageArea_financial_complaints
 GROUP BY State
 ORDER BY Complaint_ID DESC
+	
 
-SELECT Issue, COUNT(*)Complaint_ID --checking what issues generate the most complaints
-
+--checking what issues generate the most complaints
+	
+SELECT Issue, COUNT(*)Complaint_ID  
 FROM PortfolioProject..StageArea_financial_complaints
 GROUP BY Issue
 ORDER BY Complaint_ID DESC
+	
 
-SELECT Product, COUNT(*)Complaint_ID --checking the number of complaints by product
-
+--checking the number of complaints by product
+	
+SELECT Product, COUNT(*)Complaint_ID 
 FROM PortfolioProject..StageArea_financial_complaints
 GROUP BY Product
 ORDER BY Complaint_ID DESC
+	
 
-
-SELECT Submitted_via, --checking how most complaints are submitted and percentage breakdown via each channel
+--checking how most complaints are submitted and percentage breakdown via each channel
+	
+SELECT Submitted_via, 
     COUNT(*) AS Complaint_ID,
     FORMAT(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM PortfolioProject..StageArea_financial_complaints), 'N2') + '%' AS Percentage
-
 FROM PortfolioProject..StageArea_financial_complaints
 GROUP BY Submitted_via
 ORDER BY Complaint_ID DESC;
 
 
+-- checking percentage of timely responses shows 97.81% 
+
 SELECT CONCAT(ROUND(SUM(CASE WHEN Timely_response = 'Yes' THEN 1 ELSE 0 END) / CAST (COUNT(*) AS 
-float),4)*100, '%') AS 'Timely_responses (%)'-- checking percentage of timely responses shows 97.81% 
+float),4)*100, '%') AS 'Timely_responses (%)'
 FROM PortfolioProject..StageArea_financial_complaints;
 
 
