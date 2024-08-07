@@ -140,10 +140,6 @@ DROP COLUMN Company_public_response
 ALTER TABLE StageArea_financial_complaints
 DROP COLUMN Sub_issue
 
-SELECT *
-FROM StageArea_financial_complaints
-
-
 	
 -- EXPLORATORY DATA ANALYSIS--
 
