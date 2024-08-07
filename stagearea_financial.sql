@@ -1,6 +1,7 @@
 
+--Financial Consumer Complaints
 
--- Data Cleaning & Eploratory data analysis (EDA)
+-- DATA CLEANING & EXPLORATORY DATA ANALYSIS (EDA)
 
 
 SELECT *
@@ -63,10 +64,14 @@ WHERE Product LIKE 'Credit card'
 SELECT Product
 FROM PortfolioProject..StageArea_financial_complaints
 WHERE Product LIKE 'Credit card or prepaid card'
+	
 
 -- Viewing states-- 
+	
+-- Data Shows 62 states listed. Updated data to only include 50 states plus DC
+	
 
-SELECT DISTINCT State -- Data Shows 62 states listed. Updated data to only include 50 states plus DC
+SELECT DISTINCT State 
 FROM StageArea_financial_complaints
 GROUP BY State
 
@@ -89,10 +94,10 @@ GROUP BY State
 
 
 
-
-
 -- Address Null or Blank Values
 
+	
+
 SELECT *
 FROM StageArea_financial_complaints
 WHERE Sub_product = '""'
@@ -109,8 +114,10 @@ WHERE Consumer_consent_provided IS NULL
 DELETE 
 FROM StageArea_financial_complaints
 WHERE Consumer_consent_provided IS NULL
+	
 
 -- Remove unnecessary Columns
+	
 
 SELECT *
 FROM StageArea_financial_complaints
@@ -131,7 +138,8 @@ SELECT *
 FROM StageArea_financial_complaints
 
 
--- EXPLORATORY DATA ANALYSIS
+	
+-- EXPLORATORY DATA ANALYSIS--
 
 SELECT *
 FROM PortfolioProject..StageArea_financial_complaints
@@ -140,7 +148,10 @@ SELECT COUNT(*) AS Number_of_complaints -- Checking the total Number of Complain
 FROM PortfolioProject..StageArea_financial_complaints
 
 
-SELECT State, COUNT(*)Complaint_ID --checking the number of complaints per state to see which states have the highest Number of complaints
+--checking the number of complaints per state to see which states have the highest Number of complaints	
+
+	
+SELECT State, COUNT(*)Complaint_ID 
 
 FROM PortfolioProject..StageArea_financial_complaints
 GROUP BY State
